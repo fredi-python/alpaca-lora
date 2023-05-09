@@ -15,6 +15,7 @@ import bitsandbytes as bnb
 
 from peft import (
     LoraConfig,
+    PeftModel,
     get_peft_model,
     get_peft_model_state_dict,
     prepare_model_for_int8_training,
