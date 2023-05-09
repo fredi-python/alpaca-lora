@@ -172,6 +172,13 @@ def train(
         return tokenized_full_prompt
 
     model = prepare_model_for_int8_training(model)
+    
+    LORA_WEIGHTS = "tloen/alpaca-lora-7b"
+    model = PeftModel.from_pretrained(
+        model,
+        LORA_WEIGHTS,
+        torch_dtype=torch.float16,
+    )
 
     config = LoraConfig(
         r=lora_r,
@@ -181,6 +188,7 @@ def train(
         bias="none",
         task_type="CAUSAL_LM",
     )
+    
     model = get_peft_model(model, config)
 
     if data_path.endswith(".json") or data_path.endswith(".jsonl"):
